@@ -1,0 +1,4 @@
+# Add SSH keys to keychain to avoid entering passwords all the time
+# required for cygwin environment only
+keychain $HOME/.ssh/id_rsa
+source $HOME/.keychain/$HOSTNAME-sh
