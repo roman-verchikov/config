@@ -1,0 +1,32 @@
+function is_installed() {
+    hash ${1} &>/dev/null
+}
+
+if [[ -f $(brew --prefix)/etc/bash_completion ]]; then
+    . $(brew --prefix)/etc/bash_completion
+fi
+
+# add some colors to the prompt
+username="\[$(tput setaf 2)\]\u\[$(tput sgr0)\]"
+hostname="\[$(tput setaf 5)\]\h\[$(tput sgr0)\]"
+workdir="\[$(tput setaf 4)\]\W\[$(tput sgr0)\]"
+dollarsign="\[$(tput setaf 4)\]\$\[$(tput sgr0)\]"
+
+gitbranch=''
+if is_installed __git_ps1; then
+    # Don't use __git_ps1 when it's painfully slow or failing
+    # see https://gist.github.com/bps/883177
+    git_status=$(__git_ps1 "(%s)")
+    [[ $? != 130 ]] && gitbranch='\[$(tput setaf 6)\]$(__git_ps1)\[$(tput sgr0)\]'
+else
+    echo '__git_ps1 is not installed! Make sure git completion is installed' 1>&2
+fi
+
+export PS1="${username}@${hostname} ${workdir}${gitbranch} ${dollarsign} "
+
+# Syntax highligh for GNU less
+if is_installed src-hilite-lesspipe.sh; then
+    export LESSOPEN="| $(which src-hilite-lesspipe.sh) %s"
+    export LESS='-R'
+fi
+

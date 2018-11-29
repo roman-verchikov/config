@@ -1,17 +1,18 @@
-set runtimepath+=~/.vim/bundle/vundle
-call vundle#rc()
+call plug#begin('~/.vim/plugged')
 
-Plugin 'Shougo/unite.vim'
-Plugin 'Shougo/vimproc.vim'
-Plugin 'bling/vim-airline'
-Plugin 'davidhalter/jedi-vim'
-Plugin 'ervandew/supertab'
-Plugin 'fatih/vim-go'
-Plugin 'gmarik/vundle'
-Plugin 'nathanaelkane/vim-indent-guides'
-Plugin 'ntpeters/vim-better-whitespace'
-Plugin 'tpope/vim-commentary'
-Plugin 'tpope/vim-fugitive'
+Plug 'Shougo/unite.vim'
+Plug 'Shougo/vimproc.vim'
+Plug 'bling/vim-airline'
+"Plug 'davidhalter/jedi-vim'
+Plug 'ervandew/supertab'
+Plug 'fatih/vim-go'
+Plug 'gmarik/vundle'
+Plug 'nathanaelkane/vim-indent-guides'
+Plug 'ntpeters/vim-better-whitespace'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-fugitive'
+
+call plug#end()
 
 set nocompatible
 set expandtab
