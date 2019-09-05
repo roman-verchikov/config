@@ -35,9 +35,37 @@ alias l='ls'
 alias ssh='ssh -A'
 alias df='df -h'
 alias du='du -h'
-alias cat=bat
 alias gs='git status'
 alias config='/usr/bin/git --git-dir=/Users/roman/.cfg/ --work-tree=/Users/roman'
+
+# cloudlabs has dependency on pycurl, and `pip install pycurl` fails with
+#
+# ```
+# Collecting pycurl (from -r requirements.txt (line 17))
+# Downloading https://files.pythonhosted.org/packages/e8/e4/0dbb8735407189f00b33d84122b9be52c790c7c3b25286826f4e1bdb7bde/pycurl-7.43.0.2.tar.gz (214kB)
+#    100% |████████████████████████████████| 215kB 3.4MB/s
+#    Complete output from command python setup.py egg_info:
+#    Using curl-config (libcurl 7.54.0)
+#    Traceback (most recent call last):
+#      File "<string>", line 1, in <module>
+#      File "/private/var/folders/5t/zp39rf7n7p1crlhqhg9_my8m0000gn/T/pip-install-9pm5q115/pycurl/setup.py", line 913, in <module>
+#        ext = get_extension(sys.argv, split_extension_source=split_extension_source)
+#      File "/private/var/folders/5t/zp39rf7n7p1crlhqhg9_my8m0000gn/T/pip-install-9pm5q115/pycurl/setup.py", line 582, in get_extension
+#        ext_config = ExtensionConfiguration(argv)
+#      File "/private/var/folders/5t/zp39rf7n7p1crlhqhg9_my8m0000gn/T/pip-install-9pm5q115/pycurl/setup.py", line 99, in __init__
+#        self.configure()
+#      File "/private/var/folders/5t/zp39rf7n7p1crlhqhg9_my8m0000gn/T/pip-install-9pm5q115/pycurl/setup.py", line 316, in configure_unix
+#        specify the SSL backend manually.''')
+#    __main__.ConfigurationError: Curl is configured to use SSL, but we have not been able to determine which SSL backend it is using. Please see PycURL documentation for how to specify the SSL backend manually.
+#```
+#
+# In order to resolve, specify SSL backend explicitly with exports below.
+#
+# https://github.com/pycurl/pycurl/issues/526
+
+export PYCURL_SSL_LIBRARY=openssl
+export LDFLAGS=-L/usr/local/opt/openssl/lib
+export CPPFLAGS=-I/usr/local/opt/openssl/include
 
 [[ -f ~/.bashrc.apstra ]] && source ~/.bashrc.apstra
 
@@ -73,3 +101,15 @@ _fzf_compgen_dir() {
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
+
+alias django-admin="docker run \
+		--rm \
+		--user `id -u` \
+		--env "DJANGO_SETTINGS_MODULE=cloudlabs.settings" \
+		--env "PYTHONPATH=/code" \
+		--env CLOUDLABS_ENVIRONMENT=development \
+		--volume /Users/roman/Documents/apstra/cloudlabs-portal/:/code \
+		cloudlabs_django:local \
+		django-admin"
+
+alias php="docker run -v $(pwd):/cwd -w /cwd --rm php"
