@@ -113,3 +113,8 @@ alias django-admin="docker run \
 		django-admin"
 
 alias php="docker run -v $(pwd):/cwd -w /cwd --rm php"
+
+complete -C /usr/local/bin/terraform terraform
+if command -v pyenv 1>/dev/null 2>&1; then
+  eval "$(pyenv init -)"
+fi
