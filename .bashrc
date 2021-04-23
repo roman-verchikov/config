@@ -36,7 +36,7 @@ alias ssh='ssh -A'
 alias df='df -h'
 alias du='du -h'
 alias gs='git status'
-alias config='/usr/bin/git --git-dir=/Users/roman/.cfg/ --work-tree=/Users/roman'
+alias config='/usr/bin/git --git-dir=/Users/rverchykov/.cfg/ --work-tree=/Users/rverchykov'
 
 # cloudlabs has dependency on pycurl, and `pip install pycurl` fails with
 #
@@ -117,4 +117,12 @@ alias php="docker run -v $(pwd):/cwd -w /cwd --rm php"
 complete -C /usr/local/bin/terraform terraform
 if command -v pyenv 1>/dev/null 2>&1; then
   eval "$(pyenv init -)"
+fi
+
+[[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]] && . "/usr/local/etc/profile.d/bash_completion.sh"
+
+export PATH="/usr/local/opt/node@14/bin:$PATH"
+
+if command -v pipenv &> /dev/null; then
+  eval "$(pipenv --completion)"
 fi
