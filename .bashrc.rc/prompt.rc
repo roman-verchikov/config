@@ -2,8 +2,10 @@ function is_installed() {
     hash ${1} &>/dev/null
 }
 
-if [[ -f $(brew --prefix)/etc/bash_completion ]]; then
-    . $(brew --prefix)/etc/bash_completion
+if which brew > /dev/null; then
+    if [[ -f $(brew --prefix)/etc/bash_completion ]]; then
+        . $(brew --prefix)/etc/bash_completion
+    fi
 fi
 
 # add some colors to the prompt
@@ -18,8 +20,6 @@ if is_installed __git_ps1; then
     # see https://gist.github.com/bps/883177
     git_status=$(__git_ps1 "(%s)")
     [[ $? != 130 ]] && gitbranch='\[$(tput setaf 6)\]$(__git_ps1)\[$(tput sgr0)\]'
-else
-    echo '__git_ps1 is not installed! Make sure git completion is installed' 1>&2
 fi
 
 export PS1="${username}@${hostname} ${workdir}${gitbranch} ${dollarsign} "

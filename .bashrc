@@ -14,29 +14,46 @@ export BAT_THEME="GitHub"
 [[ -d /usr/local/bin ]] && export PATH=/usr/local/bin:$PATH
 [[ -d /usr/local/sbin ]] && export PATH=/usr/local/sbin:$PATH
 
-gnu_utils=(sed ls awk grep)
 
-for util in ${gnu_utils[*]}; do
-    if [[ -f $(which g${util}) ]]; then
-        alias $util=g$util
+use_gnu() {
+    local cmd="${1}"
+
+    if which g${cmd} > /dev/null; then
+        echo "g${cmd}"
+        return
     fi
-done
 
-if [[ ! -f $(which gls) ]]; then
-    LS_COMMAND="ls -G"
-else
-    LS_COMMAND=g$LS_COMMAND
+    echo "${cmd}"
+}
+
+GNU_LS_OPTIONS='--color --group-directories-first -v'
+
+if [[ ${OSTYPE} == "darwin"* ]]; then
+    alias sed=$(use_gnu sed)
+    alias ls=$(use_gnu ls)
+    alias awk=$(use_gnu awk)
+    alias grep=$(use_gnu grep)
+
+    if which gls > /dev/null; then
+        alias ls="gls ${GNU_LS_OPTIONS}"
+    else
+        alias ls='ls -G'
+    fi
 fi
 
-alias ls=$LS_COMMAND
+if [[ ${OSTYPE} == "linux-gnu"* ]]; then
+    alias ls="ls ${GNU_LS_OPTIONS}"
+fi
+
 alias ll='ls -lAh'
 alias la='ls -a'
 alias l='ls'
+
 alias ssh='ssh -A'
 alias df='df -h'
 alias du='du -h'
 alias gs='git status'
-alias config='/usr/bin/git --git-dir=/Users/rverchykov/.cfg/ --work-tree=/Users/rverchykov'
+alias config="/usr/bin/git --git-dir=${HOME}/.cfg/ --work-tree=${HOME}"
 
 # cloudlabs has dependency on pycurl, and `pip install pycurl` fails with
 #
@@ -115,6 +132,7 @@ alias django-admin="docker run \
 alias php="docker run -v $(pwd):/cwd -w /cwd --rm php"
 
 complete -C /usr/local/bin/terraform terraform
+
 if command -v pyenv 1>/dev/null 2>&1; then
   eval "$(pyenv init -)"
 fi
