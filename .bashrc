@@ -144,5 +144,5 @@ fi
 export PATH="/usr/local/opt/node@14/bin:$PATH"
 
 if command -v pipenv &> /dev/null; then
-  eval "$(pipenv --completion)"
+  eval "$(_PIPENV_COMPLETE=bash_source pipenv)"
 fi
