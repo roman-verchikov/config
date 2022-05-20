@@ -146,3 +146,8 @@ export PATH="/usr/local/opt/node@14/bin:$PATH"
 if command -v pipenv &> /dev/null; then
   eval "$(_PIPENV_COMPLETE=bash_source pipenv)"
 fi
+
+# GOLANG
+export GOPATH=/Users/rverchykov/go
+export GOROOT=${GOPATH}/sdk/go1.18.2
+export PATH=${GOROOT}/bin:${GOPATH}/bin:${PATH}
