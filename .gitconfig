@@ -1,3 +1,5 @@
 [user]
 	name = Roman Verchykov
 	email = roman@apstra.com
+[url "git@github.com:"]
+	insteadOf = https://github.com/

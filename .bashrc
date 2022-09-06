@@ -118,19 +118,6 @@ _fzf_compgen_dir() {
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
-
-alias django-admin="docker run \
-		--rm \
-		--user `id -u` \
-		--env "DJANGO_SETTINGS_MODULE=cloudlabs.settings" \
-		--env "PYTHONPATH=/code" \
-		--env CLOUDLABS_ENVIRONMENT=development \
-		--volume /Users/roman/Documents/apstra/cloudlabs-portal/:/code \
-		cloudlabs_django:local \
-		django-admin"
-
-alias php="docker run -v $(pwd):/cwd -w /cwd --rm php"
-
 complete -C /usr/local/bin/terraform terraform
 
 if command -v pyenv 1>/dev/null 2>&1; then
@@ -140,6 +127,7 @@ if command -v pyenv 1>/dev/null 2>&1; then
 fi
 
 [[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]] && . "/usr/local/etc/profile.d/bash_completion.sh"
+source <(kubectl completion bash)
 
 export PATH="/usr/local/opt/node@14/bin:$PATH"
 
@@ -151,3 +139,6 @@ fi
 export GOPATH=/Users/rverchykov/go
 export GOROOT=${GOPATH}/sdk/go1.18.2
 export PATH=${GOROOT}/bin:${GOPATH}/bin:${PATH}
+
+# k8s
+source <(kubectl completion bash)
