@@ -142,3 +142,6 @@ export PATH=${GOROOT}/bin:${GOPATH}/bin:${PATH}
 
 # k8s
 source <(kubectl completion bash)
+alias k=kubectl
+
+source <(helm completion bash)
