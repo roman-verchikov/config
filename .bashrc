@@ -10,10 +10,26 @@ export LC_CTYPE=en_US.UTF-8
 export LANG=en_US.UTF-8
 export BAT_THEME="GitHub"
 
-# needed for homebrew
-eval "$(/opt/homebrew/bin/brew shellenv)"
 [[ -d /Applications/PyCharm.app/Contents/MacOS ]] && export PATH=/Applications/PyCharm.app/Contents/MacOS:$PATH
+eval "$(/opt/homebrew/bin/brew shellenv)"
 
+if type brew &>/dev/null
+then
+  HOMEBREW_PREFIX="$(brew --prefix)"
+
+  if [[ -r "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh" ]]
+  then
+    source "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh"
+  else
+    for COMPLETION in "${HOMEBREW_PREFIX}/etc/bash_completion.d/"*
+    do
+      [[ -r "${COMPLETION}" ]] && source "${COMPLETION}"
+    done
+  fi
+
+  export LDFLAGS="-L${HOMEBREW_PREFIX}/opt/openssl@1.1/lib"
+  export CPPFLAGS="-I${HOMEBREW_PREFIX}/opt/openssl@1.1/include"
+fi
 
 use_gnu() {
     local cmd="${1}"
@@ -81,8 +97,6 @@ alias config="/usr/bin/git --git-dir=${HOME}/.cfg/ --work-tree=${HOME}"
 # https://github.com/pycurl/pycurl/issues/526
 
 export PYCURL_SSL_LIBRARY=openssl
-export LDFLAGS=-L/usr/local/opt/openssl/lib
-export CPPFLAGS=-I/usr/local/opt/openssl/include
 
 [[ -f ~/.bashrc.apstra ]] && source ~/.bashrc.apstra
 
@@ -127,6 +141,7 @@ if command -v pyenv 1>/dev/null 2>&1; then
 fi
 
 [[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]] && . "/usr/local/etc/profile.d/bash_completion.sh"
+[[ -r "${HOME}/.git-completion.bash" ]] && . "${HOME}/.git-completion.bash"
 
 export PATH="/usr/local/opt/node@14/bin:$PATH"
 
