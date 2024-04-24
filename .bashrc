@@ -11,8 +11,7 @@ export LANG=en_US.UTF-8
 export BAT_THEME="GitHub"
 
 # needed for homebrew
-[[ -d /usr/local/bin ]] && export PATH=/usr/local/bin:$PATH
-[[ -d /usr/local/sbin ]] && export PATH=/usr/local/sbin:$PATH
+eval "$(/opt/homebrew/bin/brew shellenv)"
 [[ -d /Applications/PyCharm.app/Contents/MacOS ]] && export PATH=/Applications/PyCharm.app/Contents/MacOS:$PATH
 
 
@@ -144,4 +143,6 @@ export PATH=${GOROOT}/bin:${GOPATH}/bin:${PATH}
 source <(kubectl completion bash)
 alias k=kubectl
 
-source <(helm completion bash)
+if command -v helm 1>/dev/null 2>&1; then
+  source <(helm completion bash)
+fi
