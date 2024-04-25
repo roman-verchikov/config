@@ -132,7 +132,7 @@ _fzf_compgen_dir() {
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
-complete -C /usr/local/bin/terraform terraform
+complete -C $(brew --prefix)/bin/terraform terraform
 
 if command -v pyenv 1>/dev/null 2>&1; then
   export PYENV_ROOT="$HOME/.pyenv"
