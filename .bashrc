@@ -140,9 +140,6 @@ if command -v pyenv 1>/dev/null 2>&1; then
   eval "$(pyenv init --path)"
 fi
 
-[[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]] && . "/usr/local/etc/profile.d/bash_completion.sh"
-[[ -r "${HOME}/.git-completion.bash" ]] && . "${HOME}/.git-completion.bash"
-
 export PATH="/usr/local/opt/node@14/bin:$PATH"
 
 if command -v pipenv &> /dev/null; then
