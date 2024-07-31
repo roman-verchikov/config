@@ -1,4 +1,4 @@
-for rcfile in ~/.bashrc.rc/*; do
+for rcfile in ~/.bashrc.d/*; do
     source ${rcfile}
 done
 
